@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+  pr-review:
+    build: .
+    env_file:
+      - .env
+    volumes:
+      - artifacts:/app/artifacts
+    depends_on:
+      - jenkins
+
+  jenkins:
+    image: jenkins/jenkins:lts
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - artifacts:/var/jenkins_home/artifacts
+    environment:
+      - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
+      - JENKINS_OPTS=--prefix=/
+    restart: unless-stopped
+
+volumes:
+  jenkins_home:
+  artifacts:

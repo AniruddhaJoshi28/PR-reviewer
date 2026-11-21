@@ -1,0 +1,42 @@
+jenkins:
+  systemMessage: "Jenkins Agentic PR Review & Security Platform (CasC Managed)"
+  numExecutors: 4
+  mode: NORMAL
+  scmCheckoutRetryCount: 3
+
+  securityRealm:
+    local:
+      allowsSignup: false
+      users:
+        - id: "admin"
+          password: "${JENKINS_ADMIN_PASSWORD:-admin123!}"
+
+  authorizationStrategy:
+    loggedInUsersCanDoAnything:
+      allowAnonymousRead: false
+
+  crumbIssuer:
+    standard:
+      excludeClientIPFromCrumb: false
+
+unclassified:
+  location:
+    url: "${JENKINS_URL:-http://localhost:8080/}"
+    adminAddress: "devsecops@enterprise-pharma.local"
+
+jobs:
+  - script: >
+      multibranchPipelineJob('pr-review-pipeline') {
+        branchSources {
+          git {
+            id('pr-review-repo')
+            remote('https://github.com/AniruddhaJoshi28/PR-reviewer.git')
+            includes('* PR-*')
+          }
+        }
+        orphanedItemStrategy {
+          discardOldItems {
+            numToKeep(20)
+          }
+        }
+      }

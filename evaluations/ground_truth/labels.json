@@ -1,0 +1,68 @@
+[
+  {
+    "fixture": "sql_injection.py",
+    "expected_risk": "HIGH",
+    "expected_decision": "BLOCKED",
+    "expected_findings": ["sql-injection"]
+  },
+  {
+    "fixture": "auth_bypass.py",
+    "expected_risk": "HIGH",
+    "expected_decision": "BLOCKED",
+    "expected_findings": ["missing-auth", "auth-bypass"]
+  },
+  {
+    "fixture": "hardcoded_secret.py",
+    "expected_risk": "HIGH",
+    "expected_decision": "BLOCKED",
+    "expected_findings": ["hardcoded-secret"]
+  },
+  {
+    "fixture": "broken_api_contract.py",
+    "expected_risk": "MEDIUM",
+    "expected_decision": "HUMAN_APPROVAL_REQUIRED",
+    "expected_findings": ["api-contract-violation"]
+  },
+  {
+    "fixture": "incorrect_business_logic.py",
+    "expected_risk": "MEDIUM",
+    "expected_decision": "HUMAN_APPROVAL_REQUIRED",
+    "expected_findings": ["business-logic-error"]
+  },
+  {
+    "fixture": "concurrency_defect.py",
+    "expected_risk": "HIGH",
+    "expected_decision": "BLOCKED",
+    "expected_findings": ["race-condition"]
+  },
+  {
+    "fixture": "unsafe_infra_change.py",
+    "expected_risk": "HIGH",
+    "expected_decision": "BLOCKED",
+    "expected_findings": ["open-security-group"]
+  },
+  {
+    "fixture": "prompt_injection.py",
+    "expected_risk": "HIGH",
+    "expected_decision": "BLOCKED",
+    "expected_findings": ["prompt-injection"]
+  },
+  {
+    "fixture": "failing_test.py",
+    "expected_risk": "LOW",
+    "expected_decision": "PASS",
+    "expected_findings": ["failing-test"]
+  },
+  {
+    "fixture": "benign_docs_update.md",
+    "expected_risk": "LOW",
+    "expected_decision": "PASS",
+    "expected_findings": []
+  },
+  {
+    "fixture": "false_positive_trap.py",
+    "expected_risk": "LOW",
+    "expected_decision": "PASS",
+    "expected_findings": []
+  }
+]

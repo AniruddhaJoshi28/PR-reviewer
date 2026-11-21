@@ -1,0 +1,20 @@
+# Jenkins plugins required for the Agentic PR Review platform
+# Format: plugin-short-name:version or plugin-short-name
+
+configuration-as-code:latest
+git:latest
+workflow-aggregator:latest
+pipeline-model-definition:latest
+pipeline-stage-view:latest
+credentials-binding:latest
+docker-workflow:latest
+htmlpublisher:latest
+junit:latest
+warnings-ng:latest
+timestamper:latest
+ansicolor:latest
+branch-api:latest
+github-branch-source:latest
+gitlab-branch-source:latest
+azure-devops:latest
+basic-branch-build-strategies:latest

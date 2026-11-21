@@ -1,0 +1,93 @@
+# Agent definitions for the PR review pipeline
+agents:
+  security_reviewer:
+    id: security-reviewer
+    role: security
+    description: "Reviews code for security vulnerabilities, injection flaws, and auth issues"
+    model:
+      provider: "${AI_PROVIDER}"
+      name: "gpt-4o"
+      temperature: 0.1
+      max_tokens: 4096
+    timeout_seconds: 120
+    max_input_tokens: 32000
+    focus_areas:
+      - injection
+      - authentication
+      - authorization
+      - cryptography
+      - secrets
+      - input_validation
+
+  logic_reviewer:
+    id: logic-reviewer
+    role: logic
+    description: "Reviews code for logical errors, edge cases, and correctness issues"
+    model:
+      provider: "${AI_PROVIDER}"
+      name: "gpt-4o"
+      temperature: 0.2
+      max_tokens: 4096
+    timeout_seconds: 120
+    max_input_tokens: 32000
+    focus_areas:
+      - null_handling
+      - boundary_conditions
+      - race_conditions
+      - error_handling
+      - state_management
+
+  performance_reviewer:
+    id: performance-reviewer
+    role: performance
+    description: "Reviews code for performance regressions, resource leaks, and scalability"
+    model:
+      provider: "${AI_PROVIDER}"
+      name: "gpt-4o"
+      temperature: 0.2
+      max_tokens: 4096
+    timeout_seconds: 120
+    max_input_tokens: 32000
+    focus_areas:
+      - algorithmic_complexity
+      - memory_leaks
+      - resource_management
+      - caching
+      - database_queries
+
+  adversarial_challenger:
+    id: adversarial-challenger
+    role: challenger
+    description: "Challenges findings from other agents, identifies false positives"
+    model:
+      provider: "${AI_PROVIDER}"
+      name: "gpt-4o"
+      temperature: 0.3
+      max_tokens: 4096
+    timeout_seconds: 90
+    max_input_tokens: 32000
+    focus_areas:
+      - false_positive_detection
+      - evidence_validation
+      - severity_calibration
+
+  judge:
+    id: judge
+    role: judge
+    description: "Arbitrates debate between reviewers and challenger, produces final verdict"
+    model:
+      provider: "${AI_PROVIDER}"
+      name: "gpt-4o"
+      temperature: 0.0
+      max_tokens: 4096
+    timeout_seconds: 90
+    max_input_tokens: 32000
+    focus_areas:
+      - evidence_weighing
+      - consensus_building
+      - final_assessment
+
+debate:
+  max_rounds: 3
+  require_evidence: true
+  minimum_confidence: 0.7

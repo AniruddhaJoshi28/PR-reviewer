@@ -1,0 +1,45 @@
+# Scanner definitions for the PR review pipeline
+scanners:
+  semgrep:
+    name: Semgrep
+    enabled: true
+    command: "semgrep scan --config auto --json"
+    sarif_output: true
+    timeout_seconds: 300
+    categories:
+      - security
+      - correctness
+    install: "pip install semgrep"
+
+  gitleaks:
+    name: Gitleaks
+    enabled: true
+    command: "gitleaks detect --source . --report-format sarif --report-path gitleaks.sarif"
+    sarif_output: true
+    timeout_seconds: 120
+    categories:
+      - secrets
+    install: "https://github.com/gitleaks/gitleaks/releases"
+
+  pip-audit:
+    name: pip-audit
+    enabled: true
+    command: "pip-audit --format json"
+    sarif_output: false
+    timeout_seconds: 180
+    categories:
+      - dependencies
+      - vulnerabilities
+    install: "pip install pip-audit"
+
+  codeql:
+    name: CodeQL
+    enabled: false
+    command: "codeql database analyze --format=sarifv2.1.0"
+    sarif_output: true
+    timeout_seconds: 600
+    categories:
+      - security
+      - data-flow
+    install: "https://github.com/github/codeql-action"
+    note: "Optional — requires CodeQL CLI and database creation step"

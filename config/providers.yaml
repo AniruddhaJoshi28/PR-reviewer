@@ -1,0 +1,52 @@
+# SCM provider configuration templates
+providers:
+  github:
+    type: GITHUB
+    api_base: "https://api.github.com"
+    auth_method: token
+    token_env: SCM_TOKEN
+    features:
+      - pull_requests
+      - reviews
+      - check_runs
+      - statuses
+      - comments
+
+  gitlab:
+    type: GITLAB
+    api_base: "https://gitlab.com/api/v4"
+    auth_method: token
+    token_env: SCM_TOKEN
+    features:
+      - merge_requests
+      - discussions
+      - pipelines
+      - approvals
+
+  bitbucket:
+    type: BITBUCKET
+    api_base: "https://api.bitbucket.org/2.0"
+    auth_method: token
+    token_env: SCM_TOKEN
+    features:
+      - pull_requests
+      - comments
+      - build_statuses
+
+  azure_devops:
+    type: AZURE_DEVOPS
+    api_base: "https://dev.azure.com"
+    auth_method: token
+    token_env: SCM_TOKEN
+    features:
+      - pull_requests
+      - threads
+      - build_statuses
+      - policies
+
+  generic_git:
+    type: GENERIC_GIT
+    api_base: ""
+    auth_method: none
+    features:
+      - diff

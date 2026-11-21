@@ -1,0 +1,78 @@
+# Policy configuration for the PR review pipeline
+version: "1.0.0"
+
+risk_rules:
+  high:
+    - id: HIGH_CRED_LEAK
+      description: "Credentials, secrets, or API keys detected in diff"
+      action: BLOCKED
+    - id: HIGH_AUTH_BYPASS
+      description: "Authentication or authorization logic modified"
+      action: HUMAN_APPROVAL_REQUIRED
+    - id: HIGH_CRYPTO_CHANGE
+      description: "Cryptographic algorithm or key management changes"
+      action: HUMAN_APPROVAL_REQUIRED
+    - id: HIGH_CI_CD_CHANGE
+      description: "CI/CD pipeline or deployment configuration modified"
+      action: HUMAN_APPROVAL_REQUIRED
+    - id: HIGH_DEPENDENCY_VULN
+      description: "Known vulnerable dependency introduced"
+      action: BLOCKED
+
+  medium:
+    - id: MED_NEW_DEPENDENCY
+      description: "New external dependency added"
+      action: HUMAN_APPROVAL_REQUIRED
+    - id: MED_DB_MIGRATION
+      description: "Database schema migration detected"
+      action: HUMAN_APPROVAL_REQUIRED
+    - id: MED_API_CHANGE
+      description: "Public API surface modified"
+      action: HUMAN_APPROVAL_REQUIRED
+    - id: MED_LARGE_DIFF
+      description: "Diff exceeds 500 lines changed"
+      action: HUMAN_APPROVAL_REQUIRED
+
+  low:
+    - id: LOW_DOCS_ONLY
+      description: "Only documentation files changed"
+      action: PASS
+    - id: LOW_TEST_ONLY
+      description: "Only test files changed"
+      action: PASS
+    - id: LOW_FORMATTING
+      description: "Only formatting or whitespace changes"
+      action: PASS
+
+mandatory_checks:
+  - scanner: semgrep
+    must_pass: true
+  - scanner: gitleaks
+    must_pass: true
+  - scanner: pip-audit
+    must_pass: false
+
+approval_requirements:
+  high:
+    min_approvers: 2
+    require_security_team: true
+    auto_merge: false
+  medium:
+    min_approvers: 1
+    require_security_team: false
+    auto_merge: false
+  low:
+    min_approvers: 0
+    require_security_team: false
+    # Enterprise default: auto_merge is disabled even for low risk without explicit human review
+    auto_merge: false
+
+override_policy:
+  enabled: true
+  require_reason: true
+  allowed_roles:
+    - security-lead
+    - tech-lead
+    - release-manager
+  audit_log: true
+  max_override_risk: HIGH
